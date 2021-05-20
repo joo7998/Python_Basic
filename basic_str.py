@@ -152,7 +152,7 @@ def split_join_methods():
     print("원본:", s)
     print("SPLIT:", s.split())  # 기본적으로 공백문자를 기준으로 분리
     items = s.split(" and ")    # 분할시 " and "를 기준으로 분리
-    print("SPLIT:", items);
+    print("SPLIT:", items)
 
     items = s.split(" and ", 2) # " and " 구분자를 기준으로 앞으로부터 2개만 추출
     print(items)
