@@ -80,7 +80,16 @@ def set_oper():
     print("전체집합 차집합 짝수집합 -> 홀수 집합?", numbers - evens == odds)
 
 
+def loop():
+    # numbers를 순회하면 출력
+    for item in numbers:
+        print(item, end=" ")
+    else:
+        print()
+
+
 if __name__ == "__main__":
     # define_set()
     # set_methods()
-    set_oper()
+    # set_oper()
+    loop()
