@@ -44,3 +44,26 @@ class Point:
             self.y += other
 
         return self
+
+    # 역이행 연산자 +
+    def __radd__(self, other):  # other + Point
+        if isinstance(other, int):
+            self.x += other
+            self.y += other
+
+        return self
+
+    # - 연산자 오버로딩
+    def __sub__(self, other):
+        if isinstance(other, Point):
+            self.x -= other.x
+            self.y -= other.y
+        elif isinstance(other, int):
+            self.x -= other
+            self.y -= other
+
+        return self
+
+    # == 오버로딩
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y
