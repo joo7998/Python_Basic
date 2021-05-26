@@ -18,6 +18,22 @@ def create_connection(db_file):
     return conn
 
 
+# 파라미터 이용 insert
+def test_insert_data(db_file, name, category, region):
+    conn = create_connection(db_file)
+    cursor = conn.cursor()
+
+    # 익명 파라미터 바인딩
+    sql = """INSERT INTO customer (name, category, region)
+    VALUES(?, ?, ?)"""
+    res = conn.execute(sql, (name, category, region))
+
+    # INSERT, UPDATE, DELETE -> 영향 받은 레코드의 수 .rowcount로 반환된다
+    print("{}개의 레코드가 영향을 받음".format(res.rowcount))
+    conn.commit()
+    conn.close()
+
+
 def test_connection(db_file):
     conn = create_connection(db_file)
     print(type(conn))
