@@ -1,29 +1,29 @@
 # pip install cx_Oracle
-import cx_Oracle    # 모듈임포트
+import cx_Oracle    # module import
 
 def create_connection():
-    # dsn 작성
+    # dsn
     dsn = cx_Oracle.makedsn("localhost",
                             1521,
-                            "xe")   # 서버주소, 포트, SID(서비스명)
-    # 접속
-    db = cx_Oracle.connect("hr", "hr", dsn) # 계정, 암호, 데이터소스이름
+                            "orcl")   # server address, port, SID(service id)
+    # connect
+    db = cx_Oracle.connect("hr", "hr", dsn) # account, password, data source name
     return db
 
 
 def test_connect():
-    # 접속
+    # connect
     conn = create_connection()
     print(type(conn))
     conn.close()
 
 
 def test_basic_query():
-    # hr.employees 모든 레코드 반환
+    # hr.employees -> all records return
     conn = create_connection()  # Connection
     cursor = conn.cursor()  # Cursor
 
-    # SQL 실행
+    # SQL execute
     sql = "SELECT * FROM employees"
     cursor.execute(sql)
 
@@ -54,15 +54,15 @@ def test_placeholder():
 def test_dictionary():
     conn = create_connection()
     cursor = conn.cursor()
-    # SQL 실행
+    # SQL execute
     sql = "SELECT * FROM employees"
     cursor.execute(sql)
 
-    print(cursor.description)   # 커서의 정보 확인
+    print(cursor.description)   # cursor status check
 
-    # 컬럼 정보, 레코드 -> zip -> 사전
+    # column info, record -> zip -> dic
     for record in cursor:
-        # 사전 생성
+        # created dic
         record_dct = dict(zip([d[0] for d in cursor.description], record))
         print(record_dct)
 

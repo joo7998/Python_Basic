@@ -5,16 +5,16 @@ def q1():
             .replace(",", "")\
             .replace(" ", "")
 
-    # list로 변환
+    # list
     lst = list(s)
-    # 중복제거 -> set으로 변환\
+    # to set (no repeat)
     chars = set(lst)
     print("chars:", chars)
-    # -> 리스트로 형변환
+    # to list
     lst = list(chars)
-    lst.sort()  # 알파벳 순 정렬
+    lst.sort()
     print(lst)
-    print(len(lst), "개의 알파벳이 사용되었습니다.")
+    print(len(lst))
 
 
 def q2():
@@ -55,6 +55,6 @@ def q3():
 
 
 if __name__ == "__main__":
-    # q1()
-    # q2()
+    q1()
+    q2()
     q3()

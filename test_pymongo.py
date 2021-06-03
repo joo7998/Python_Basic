@@ -1,81 +1,79 @@
-# this is commit test
-
 # pip install pymongo
 from pymongo import MongoClient
 
-# 접속 함수
+# connect function
 def connect():
     client = MongoClient("mongodb://localhost:27017")
     return client
 
-# 접속 테스트
+# test connection
 def test_connect():
     conn = connect()
     # print(dir(conn))
-    print("데이터베이스:")
+    #  dir : returns all properties and methods of the obj
+    print("database:")
     for db in conn.list_database_names():
         print(db)
 
 
-# 컬렉션 확인
+# collection check
 def test_collection():
-    # 접속
+    # connect
     conn = connect()
-    # 사용할 데이터베이스 선택
+    # choose db
     db = conn['mydb'] # use mydb
-    # 컬렉션 선택
+    # choose collection
     coll = db['pymongo']
     return coll
 
 
 def test_insert():
-    # 컬렉션 확보
+    # collection
     coll = test_collection()
 
-    # 한개 문서 삽입
+    # 1 insert
     x = coll.insert_one({
-        "name": "홍길동",
-        "address": "서울"
-    }) # 새로 생성된 Document의 _id를 반환
+        "name": "Hong",
+        "address": "seoul"
+    }) # new Document _id return
 
-    # 결과 확인
+    # result check
     print(x.inserted_id)
 
 
 def test_insert_many():
     coll = test_collection()
 
-    # 여러 문서 삽입시에는 []로 문서 전달
+    # many insert -> [] usig list
     xs = coll.insert_many([
-        { "name": "고길동", "address": "서울", "method": "insert_many" },
-        { "name": "장길산", "method": "insert_many"},
-        { "name": "임꺽정", "job": "도적"}
+        { "name": "Go", "address": "seoul", "method": "insert_many" },
+        { "name": "Jan", "method": "insert_many"},
+        { "name": "Im", "job": "theif"}
     ])
     # insert_many -> insered_ids
     print(xs.inserted_ids)
-    print(len(xs.inserted_ids), "개 레코드 삽입되었음")
+    print(len(xs.inserted_ids), "inserted")
 
 from datetime import datetime
 
 def test_update():
-    # address == "서울"인 문서
-    # method -> update, modified_at -> 현재 시간
+    # address == "seoul"
+    # method -> update, modified_at -> current time
     coll = test_collection()
 
-    xs = coll.update_many({ "address": "서울" },  # 조건
+    xs = coll.update_many({ "address": "seoul" },  # condition
                           { '$set': {
                               "method": "update",
                               "modified_at": datetime.now()
                           }}
                           )
-    print(xs.matched_count, "개가 매칭 되었습니다.") # 조건에 맞는 문서의 개수
-    print(xs.modified_count, "개가 갱신 되었습니다.") # 실제 변경된 문서 개수
-
+    print(xs.matched_count, "matched.") # condition that satisfy
+    print(xs.modified_count, "updated.") # actually updated
 
 def test_select_by_filter(filter={}, projection={}):
     """
-    db.collection.find({ 조건 }, { projection })
-        프로젝션은 값 1:표시, 값 0, 표시 안함
+    db.collection.find({ condition }, { projection })
+        projection 1:indicate, 0:not
     """
     coll = test_collection()
     docs = coll.find(filter, projection)
@@ -87,10 +85,11 @@ def test_select_by_filter(filter={}, projection={}):
 def test_delete_by_filter(filter = {}):
     coll = test_collection()
     xs = coll.delete_many(filter)
-    print(xs.deleted_count, "개의 레코드가 삭제!")
+    print(xs.deleted_count, "records deleted!")
 
 
-import re   # 정규표현식 객체
+import re
+
 if __name__ == "__main__":
     # test_connect()
     # test_insert()
@@ -99,18 +98,17 @@ if __name__ == "__main__":
     # test_select_by_filter(projection={
     #     "name": 1, "address": 1, "_id": 0
     # }) # filter={}, projection={}
-    # SELECT * FROM 테이블 WHERE 컬럼 LIKE ->
-    # 정규식을 이용, 패턴 전달
-    # filter = re.compile(r"길동")
+    # SELECT * FROM WHERE  LIKE ->
+    # filter = re.compile(r"hong")
     # """
-    # db.pymongo.find({ "name": /길동/ }, { "name": 1, "_id": 0)
+    # db.pymongo.find({ "name": /hong/ }, { "name": 1, "_id": 0)
     # """
     # test_select_by_filter({ "name": filter },
     #                       { "name": 1, "_id": 0 })
     #
-    # address == "서울" 인 문서들 삭제
-    # test_delete_by_filter({ "address": "서울" })
-    # db.pymongo.delete({"address": "서울"})
-    # 전체 문서 삭제
+    # address == "seoul" delete
+    # test_delete_by_filter({ "address": "seoul" })
+    # db.pymongo.delete({"address": "seoul"})
+    # entire doc delete
     # db.pymongo.delete({})
     test_delete_by_filter()

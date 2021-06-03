@@ -1,6 +1,6 @@
-# 파일 모드
-#   action: r(읽기:default), w(쓰기), a(추가)
-#   type: t(텍스트:default), b(바이너리)
+# file mode
+#       action: r(read: default), w(write), a(add)
+#       type: t(default), b(binary)
 
 def write01():
     f = open("./sample/test.txt", "w", encoding="UTF-8") # write text
@@ -24,18 +24,18 @@ def read01():
 
 
 def read02():
-    # readline 메서드를 이용하면 한 줄 단위로 읽을 수 있다
+
     f = open("./sample/multilines.txt", "r", encoding="UTF-8")
     while True:
-        line = f.readline() # 한 줄 읽기
-        if not line:    # 더 읽을 내용이 없으면
+        line = f.readline() # read one line
+        if not line:    # if no more to read
             break
         print(line)
     f.close()
 
 
 def read03():
-    # readlines 메서드 -> 전체 리스를 불러와서 리스트로 변환 제공
+    # readlines() -> whole list -> convert
     f = open("./sample/multilines.txt", "r", encoding="UTF-8")
     lines = f.readlines()
 
@@ -45,14 +45,14 @@ def read03():
 
 
 def copy_binary():
-    # 바이너리 파일을 다루려면 모드를 b로 설정
-    # rose-flower.jpeg -> rose-flower-copy.jpeg로 복사
-    f_src = open("./sample/rose-flower.jpeg", "rb") # binary 모드로 설정
+    # binary file (to handle) = mode b
+    # rose-flower.jpeg -> rose-flower-copy.jpeg (copy)
+    f_src = open("./sample/rose-flower.jpeg", "rb") # binary mode
     data = f_src.read()
     print(type(data))
     f_src.close()
 
-    f_dest = open("./sample/rose-flower-copy.jpeg", "wb")   # binary 모드
+    f_dest = open("./sample/rose-flower-copy.jpeg", "wb")   # binary mode
     f_dest.write(data)
     f_dest.close()
 
@@ -60,43 +60,43 @@ import pickle
 
 
 def pickle_dump():
-    with open("./sample/players.bin", "wb") as f:   # 자원 자동 정리, pickle 사용을 위해서는 모드를 binary로
+    with open("./sample/players.bin", "wb") as f:   # to use pickle -> binary
         data = {"baseball": 9}
         pickle.dump(data, f)
-    print("덤프 완료!")
+    print("dumped!")
 
 
 def pickle_load():
-    # 객체 역직렬화: 2진 데이터 -> 파이썬 객체로 복원
+    # binary data -> python obj (back)
     with open("./sample/players.bin", "rb") as f:
         data = pickle.load(f)
         print(data, type(data))
-    print("로드 완료!")
+    print("loaded!")
 
 
 def pickle_dump_multi():
-    # dump 메서드를 중복 실행하면 여러 객체를 dump 할 수 있다
+    # dump method repeat ->  many obj dump (0)
     with open("./sample/players.bin", "wb") as f:
-        pickle.dump({"baseball": 9}, f, 1) # 프로토콜의 버전 1
-        pickle.dump({"basketball": 5}, f, pickle.HIGHEST_PROTOCOL) # 가장 최신 버전의 프로토콜 사용
-        pickle.dump({"soccer": 11}, f) # 프로토콜 버전 명시 안하면 -> 가장 최신 버전의 프로토콜 사용
+        pickle.dump({"baseball": 9}, f, 1) # protocol ver.1
+        pickle.dump({"basketball": 5}, f, pickle.HIGHEST_PROTOCOL) # latest protocol ver
+        pickle.dump({"soccer": 11}, f) # if ver not specified -> use the latest
 
-    print("중복 덤프 완료!")
+    print("overlap dump!")
 
 
 def pickle_load_multi():
-    # 파일 내부에 몇 개의 피클 객체가 저장되어 있는지 확인 어렵다
+    # difficult to know no. pickle ojb within the file
     with open("./sample/players.bin", "rb") as f:
         # print(pickle.load(f))
         # print(pickle.load(f))
         # print(pickle.load(f))
         # print(pickle.load(f))
-        # EOF 에러가 발생할 때까지 loop를 돌면서 load
+        # loop until EOF error occurs ->load
         data_list = []
         while True:
             try:
                 data = pickle.load(f)
-            except EOFError:    # 더 이상 읽을 피클이 없다
+            except EOFError:    # no more pickle to read
                 break
             data_list.append(data)
 
@@ -105,16 +105,15 @@ def pickle_load_multi():
 
 def slamdunk_read():
     # sangbuk.csv
-    # 한 줄 단위로 읽어서 -> dict -> list에 적재
-    # pickle에 덤프
+    # line by line -> dict -> list
+    # dump to pickle
     players = []
     with open("./sample/sangbuk.csv", "rt", encoding="utf-8") as f:
         while True:
             line = f.readline()
-            if not line:    # 읽을 데이터가 없다
+            if not line:    # no data read
                 break
-            # 읽은 데이터를 사전화
-            # 정제
+            # data -> dic
             line = line.strip().replace(" ", "")
             info = line.split(",")
             print(info)
@@ -123,11 +122,11 @@ def slamdunk_read():
             players.append(member)
 
     print(players)
-    # pickle에 덤프
+    # dump -> pickle
     with open("./sample/sangbuk_players.bin", "wb") as f:
         pickle.dump(players, f)
 
-    print("피클 덤프 완료!")
+    print("pickle dumped!")
 
 
 if __name__ == "__main__":

@@ -1,12 +1,11 @@
-class MyString(str):    # str 클래스를 상속 받은 MyString
-    pass    # MyString은 str 클래스에서 모든 멤버들을 물려 받는다
+class MyString(str):        # MyString inherited str class
+    pass                    # MyString inherits all the members from str class
 
-s = MyString()  # 인스턴스 생성
-print(type(s))  # 타입의 확인
-print(MyString.__bases__)   # 기반 클래스의 확인
-print(str.__bases__)    # 모든 클래스의 최상위 클래스는 object
+s = MyString()              # instance created
+print(type(s))
+print(MyString.__bases__)   # base class ?
+print(str.__bases__)        # object = the highest class of all the classes
 
-# 파이썬은 다중 상속이 가능
 class myobj:
     pass
 
@@ -16,18 +15,14 @@ class Chimera(str, myobj):
 print(type(Chimera))
 print(Chimera.__bases__)
 
-# 하위 클래스 or 파생 클래스: issubclass 함수
-print("Chimera는 str의 서브클래스?", issubclass(Chimera, str))
-print("Chimera는 myobj의 서브클래스?", issubclass(Chimera, myobj))
+#issubclass
+print(issubclass(Chimera, str))
+print(issubclass(Chimera, myobj))
 
-# 상위 클래스 or 기반 클래스: 별도 함수 없음, __bases__ 사용
-
-# MyString은 str을 상속 -> str의 모든 멤버를 상속
+# MyString inherited str -> MyString inherited str's member
 ms = MyString("Python")
 print(ms)
 print(dir(ms))
-# str의 모든 메서드를 그대로 활용
 print(ms.upper())
 
-# 클래스 생성
-
+# Class

@@ -1,53 +1,52 @@
 def q1():
-    score1 = int(input("점수1:"))
-    score2 = int(input("점수2:"))
+    score1 = int(input("Score 1:"))
+    score2 = int(input("Score 2:"))
 
     average = (score1 + score2) / 2
 
     if score1 >= 50 and \
         score2 >= 50 and \
         average >= 60:
-        message = "합격"
+        message = "PASS"
     else:
-        message = "불합격"
+        message = "FAIL"
 
     print(message)
 
 
 def q2():
-    for dan in range(2, 10):    # 2 ~ 9 단
-        print(dan, "단")
+    for dan in range(2, 10):
+        print(dan, "DAN")
         for num in range(1, 10):    # 1 ~ 9
             print("{} x {} = {}".format(dan, num, dan * num))
 
 
 def q3():
-    balance = 0 # 잔액 변수
+    balance = 0
 
-    while True: # 무한루프
+    while True: # loop infinite
         method = input("method:")
         method = method.lower()
 
         if method == "q":
-            break   # 루프 종료
+            break   # end of the loop
 
         if method != "d" and method != "w":
             print("?")
             continue
 
-        # d, w만 남음
-        # 금액 입력
+
         amount = int(input("Amount:"))
 
-        # if method == "d":   # 입금
+        # if method == "d":
         #     balance += amount
-        # else:   # 출금
+        # else:
         #     balance -= amount
         balance += amount if method == "d" else -amount
 
         print("Balance:", balance)
 
-    print("프로그램 종료")
+    print("the end")
 
 
 if __name__ == "__main__":
